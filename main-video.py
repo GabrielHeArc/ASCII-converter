@@ -1,12 +1,12 @@
-# Created by Flynn's Forge 2021, from https://flynnsforge.com/
 # Imports
 import sys
 import PIL.Image
-from tkinter import *
 import os
 import cv2
+from tkinter import *
 
 root = Tk()
+
 # setting font to small so the video fits into the screen
 root.option_add('*Font', 'Times 1')
 text = Text(root)
@@ -27,8 +27,9 @@ w.pack()
 
 def generate_from_video():
     # get image and read it
-    video_path = "video.mp4"  # add path to your mp4 file here
+    video_path = "videos/video.mp4"  # add path to your mp4 file here
     cap = cv2.VideoCapture(video_path)
+
     if cap.isOpened():
         framerate = cap.get(cv2.CAP_PROP_FPS)
         framecount = 0
@@ -36,6 +37,7 @@ def generate_from_video():
             # capture frame-by-frame
             success, image = cap.read()
             img = PIL.Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
+
             # resize the image
             width, height = img.size
             aspect_ratio = height/width
@@ -46,6 +48,7 @@ def generate_from_video():
             # convert image to greyscale format
             img = img.convert('L')
             pixels = img.getdata()
+
             # convert to ASCII
             # values taken from https://pythoncircle.com
             chars = ["B", "S", "#", "&", "@", "$", "%", "*", "!", ":", "."]
@@ -56,13 +59,15 @@ def generate_from_video():
             ascii_image = [new_pixels[index:index + new_width]
                            for index in range(0, new_pixels_count, new_width)]
             ascii_image = "\n".join(ascii_image)
+
             #show in Tkinter
             text.delete('1.0', END)
             text.insert(1.0, ascii_image)
             text.update()
     else:
-        print("Not Opened!")
+        print("Video not Opened!")
 
 
-generate_from_video()
-root.mainloop()
+if __name__ == "__main__":
+    generate_from_video()
+    root.mainloop()
