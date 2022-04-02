@@ -69,6 +69,9 @@ def write_file_header(output_file: BufferedWriter, width: int, height: int, fram
     )
 
 
+
+
+
 def normalize_frame_rate(frame_rate: float) -> bytes:
     """
     Normalizes the frame rate to an unsigned byte value between 1 and 255.
