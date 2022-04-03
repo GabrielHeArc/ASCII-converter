@@ -80,8 +80,8 @@ def textfile_to_image(textfile_path):
         draw.text((horizontal_position, vertical_position),
                   line, fill=font_color, font=font)
 
-    imgplot = plt.imshow(image)
-    plt.show()
+    # imgplot = plt.imshow(image)
+    # plt.show()
     return image
 
 

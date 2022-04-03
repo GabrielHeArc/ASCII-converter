@@ -1,11 +1,11 @@
 import PIL.Image
 import os
-import text_to_image
+
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from lib import *
 
-from text_to_image import encode_file
+
 from PIL import Image, ImageChops
 from math import ceil
 from PIL import (
@@ -36,36 +36,7 @@ def pixel_to_ascii(image):
     return ascii_str
 
 
-def process_array(array_image):
-    # resize_image image
-    array_image = resize_image(array_image)
-
-    print(array_image)
-    exit(0)
-
-    # convert image to greyscale image
-    greyscale_image = to_greyscale(image)
-
-    # convert greyscale image to ascii characters
-    ascii_str = pixel_to_ascii(greyscale_image)
-
-    img_width = 2*greyscale_image.width  # 2 characters width = 1 pixel width
-    ascii_str_len = len(ascii_str)
-    ascii_img = ""
-
-    # Split the string based on width  of the image
-    for i in range(0, ascii_str_len, img_width):
-        ascii_img += ascii_str[i:i+img_width] + "\n"
-    # save the string to a file
-    with open("text/ascii_image.txt", "w") as f:
-        f.write(ascii_img)
-    img = textfile_to_image("text/ascii_image.txt")
-
-    img = trim(img)
-    img.save("result/image.jpg")
-
-
-def process_path(path):
+def process(path):
     # path = "images/lena.jpg"  # input("Enter the path to the image field : \n")
     try:
         image = Image.open(path)
@@ -73,7 +44,7 @@ def process_path(path):
         print(path, "Unable to find image ")
 
     # resize_image image
-    image = resize_image(image)
+    image = resize_image(image) # qualité image meilleure avec resize
 
     # convert image to greyscale image
     greyscale_image = to_greyscale(image)
@@ -94,9 +65,9 @@ def process_path(path):
     img = textfile_to_image("text/ascii_image.txt")
 
     img = trim(img)
-    img.save("result/image.jpg")
+    img.save("result/image/image.jpg")
 
 
 if __name__ == "__main__":
-    #process_path("images/lena.jpg")
-    process_array(Image.open("images/lena.jpg"))
+    path = "images/lena.jpg"
+    process(path)
