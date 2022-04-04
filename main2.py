@@ -7,6 +7,8 @@ import matplotlib.image as mpimg
 from lib import *
 import time
 
+from PIL import Image
+Image.MAX_IMAGE_PIXELS = 100000000000000
 from PIL import Image, ImageChops
 from math import ceil
 from PIL import (
@@ -48,7 +50,7 @@ def pixel_to_ascii(image):
 def process(image, multiple_frame=False, counter=0):
     # print(type(image))
     # resize_image image
-    # image = resize_array(image, 512) # qualité image meilleure avec resize /!\ Ne fonctionne pas si différent de 512 donc de la taille originale
+    image = resize_array(image, 512) # qualité image meilleure avec resize /!\ Ne fonctionne pas si différent de 512 donc de la taille originale
 
     # convert greyscale image to ascii characters
     print("START")
@@ -66,9 +68,9 @@ def process(image, multiple_frame=False, counter=0):
     for i in range(0, ascii_str_len, img_width):
         ascii_img += ascii_str[i:i+img_width] + "\n"
     # save the string to a file
-    with open("text/ascii_image.txt", "w") as f:
+    with open("temp/ascii_image.txt", "w+") as f:
         f.write(ascii_img)
-    img = textfile_to_image("text/ascii_image.txt")
+    img = textfile_to_image("temp/ascii_image.txt")
     inter3 = time.time()
     print("convert to image Time: ", inter3 - inter2)
 

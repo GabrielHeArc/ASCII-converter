@@ -46,30 +46,26 @@ def convert_video(file_name, output_name):
 
         success = 1
         count = 0
+        scale = 75
         while success:
+            print(success)
             success, image_array = video_capture.read()
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
+            image_array = cv2.resize(image_array, (int(width * scale/100), int(height * scale/100)), interpolation=cv2.INTER_AREA)
+
             # start = time.time()
             process(image_array, multiple_frame=True, counter=count)
             # end = time.time()
             # print("Time : ", end - start)
             count += 1
-
-
-
-
-
-
+            # if count == 9:
+                # break
 
 
 if __name__ == "__main__":
-    file_name = "video/video.mp4"
+    file_name = "video/video.mov"
     start = time.time()
     convert_video(file_name, "result/video/final/video")
     end = time.time()
 
     print("Total Time: ", end - start)
-
-
-
-
