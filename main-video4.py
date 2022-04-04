@@ -45,11 +45,15 @@ def convert_video(file_name, output_name):
         print(frame_rate)
 
         success = 1
-
+        count = 0
         while success:
-            success, image_array = video_capture.read(IMREAD_GRAYSCALE)
-            print(image_array.shape)
-            process(image_array)
+            success, image_array = video_capture.read()
+            image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
+            # start = time.time()
+            process(image_array, multiple_frame=True, counter=count)
+            # end = time.time()
+            # print("Time : ", end - start)
+            count += 1
 
 
 
@@ -64,7 +68,7 @@ if __name__ == "__main__":
     convert_video(file_name, "result/video/final/video")
     end = time.time()
 
-    print("Time: ", end - start)
+    print("Total Time: ", end - start)
 
 
 
