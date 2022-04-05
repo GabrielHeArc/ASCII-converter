@@ -1,9 +1,12 @@
 .venv
 __pycache__/lib.cpython-310.pyc
-result/
-text/
+#result/
+#text/
 __pycache__/lib.cpython-39.pyc
 __pycache__/main2.cpython-39.pyc
 __pycache__/lib.cpython-39.pyc
 __pycache__/lib.cpython-39.pyc
 __pycache__/main2.cpython-310.pyc
+
+ascii_image_*.jpg
+ascii_image_*.png

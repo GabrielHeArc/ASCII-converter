@@ -4,28 +4,7 @@ import cv2
 from cv2 import IMREAD_GRAYSCALE
 from main2 import process
 import png
-
-def FrameCapture(path):
-
-    # Path to video file
-    vidObj = cv2.VideoCapture(path)
-
-    # Used as counter variable
-    count = 0
-
-    # checks whether frames were extracted
-    success = 1
-
-    while success:
-
-        # vidObj object calls read
-        # function extract frames
-        success, image = vidObj.read()
-
-        # Saves the frames with frame-count
-        cv2.imwrite("temp/frame%d.jpg" % count, image)
-
-        count += 1
+import ffmpeg
 
 def convert_video(file_name, output_name):
     video_capture = cv2.VideoCapture(file_name)
@@ -51,21 +30,41 @@ def convert_video(file_name, output_name):
             print(success)
             success, image_array = video_capture.read()
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
-            image_array = cv2.resize(image_array, (int(width * scale/100), int(height * scale/100)), interpolation=cv2.INTER_AREA)
-
-            # start = time.time()
+            # image_array = cv2.resize(image_array, (int(width * scale/100), int(height * scale/100)), interpolation=cv2.INTER_AREA)
             process(image_array, multiple_frame=True, counter=count)
-            # end = time.time()
-            # print("Time : ", end - start)
             count += 1
-            # if count == 9:
-                # break
+            if count == frame_count-1:
+                break
+
+
+def assemble_video():
+    print("avant")
+    rescaled_frames = ffmpeg.input(
+        'result/video/images/ascii_image_%d.png', framerate=25)
+
+    print(rescaled_frames)
+
+    print("pendant")
+    rescaled_video = ffmpeg.output(
+        rescaled_frames, "test.mp4").run()
+
+    print(rescaled_video)
+    print("apres")
+
+    # ffmpeg.input('result/video/images/*.png', pattern_type='glob',
+    #              framerate=25).output('result/video/final/movie.mp4').run()
 
 
 if __name__ == "__main__":
-    file_name = "video/video.mov"
-    start = time.time()
-    convert_video(file_name, "result/video/final/video")
-    end = time.time()
+    file_name = "video/video2.mp4"
 
-    print("Total Time: ", end - start)
+    # start = time.time()
+    # convert_video(file_name, "result/video/final/video")
+    # inter1 = time.time()
+    # print("Convert video time : ", inter1 - start)
+
+    assemble_video()
+    # inter2 = time.time()
+    # print("Assemble video time : ", inter2 - inter1)
+
+    # print("Total Time: ", inter2 - start)
