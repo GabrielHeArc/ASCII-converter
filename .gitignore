@@ -2,3 +2,7 @@
 __pycache__/
 ascii_image_*.jpg
 ascii_image_*.png
+
+/video
+movie.mp4
+

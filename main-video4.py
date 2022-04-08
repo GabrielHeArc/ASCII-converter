@@ -6,6 +6,7 @@ from main2 import process
 import png
 import ffmpeg
 
+
 def convert_video(file_name, output_name):
     video_capture = cv2.VideoCapture(file_name)
 
@@ -25,46 +26,29 @@ def convert_video(file_name, output_name):
 
         success = 1
         count = 0
-        scale = 75
+        loading = 0
+        percent = 1 / frame_count * 100
         while success:
-            print(success)
+            print("Loading : " + str(loading) + "%")
+            loading += percent
             success, image_array = video_capture.read()
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
-            # image_array = cv2.resize(image_array, (int(width * scale/100), int(height * scale/100)), interpolation=cv2.INTER_AREA)
             process(image_array, multiple_frame=True, counter=count)
             count += 1
             if count == frame_count-1:
                 break
 
+        assemble_video(frame_rate)
 
-def assemble_video():
-    print("avant")
-    rescaled_frames = ffmpeg.input(
-        'result/video/images/ascii_image_%d.png', framerate=25)
 
-    print(rescaled_frames)
-
-    print("pendant")
-    rescaled_video = ffmpeg.output(
-        rescaled_frames, "test.mp4").run()
-
-    print(rescaled_video)
-    print("apres")
-
-    # ffmpeg.input('result/video/images/*.png', pattern_type='glob',
-    #              framerate=25).output('result/video/final/movie.mp4').run()
+def assemble_video(frame_rate):
+    # ffmpeg.input('result/video/images/ascii_image_%d.png',
+    #              framerate=frame_rate).output('result/video/final/movie.mp4').run()
+    rescaled_frames = ffmpeg.input('result/video/images/ascii_image_%d.png', framerate=frame_rate)
+    rescaled_video = ffmpeg.output(rescaled_frames, 'result/video/final/movie.mp4', vcodec='libx264', pix_fmt='yuv420p').run()
 
 
 if __name__ == "__main__":
-    file_name = "video/video2.mp4"
+    file_name = "video/video.mov"
 
-    # start = time.time()
-    # convert_video(file_name, "result/video/final/video")
-    # inter1 = time.time()
-    # print("Convert video time : ", inter1 - start)
-
-    assemble_video()
-    # inter2 = time.time()
-    # print("Assemble video time : ", inter2 - inter1)
-
-    # print("Total Time: ", inter2 - start)
+    convert_video(file_name, "result/video/final/video")
