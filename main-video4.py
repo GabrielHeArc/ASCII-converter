@@ -1,10 +1,13 @@
+import datetime
 from lib2to3.pytree import convert
+from math import ceil
 import time
 import cv2
 from cv2 import IMREAD_GRAYSCALE
 from main2 import process
 import png
 import ffmpeg
+from datetime import datetime
 
 
 def convert_video(file_name, output_name):
@@ -28,27 +31,32 @@ def convert_video(file_name, output_name):
         count = 0
         loading = 0
         percent = 1 / frame_count * 100
+        timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
+        timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
+
         while success:
-            print("Loading : " + str(loading) + "%")
+            print("Loading : " + str(ceil(loading)) + "%")
             loading += percent
             success, image_array = video_capture.read()
             image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
-            process(image_array, multiple_frame=True, counter=count)
+            process(image_array, timestamp, multiple_frame=True, counter=count)
             count += 1
             if count == frame_count-1:
                 break
 
-        assemble_video(frame_rate)
+        assemble_video(frame_rate, timestamp)
 
 
-def assemble_video(frame_rate):
+def assemble_video(frame_rate, timestamp):
     # ffmpeg.input('result/video/images/ascii_image_%d.png',
     #              framerate=frame_rate).output('result/video/final/movie.mp4').run()
-    rescaled_frames = ffmpeg.input('result/video/images/ascii_image_%d.png', framerate=frame_rate)
-    rescaled_video = ffmpeg.output(rescaled_frames, 'result/video/final/movie.mp4', vcodec='libx264', pix_fmt='yuv420p').run()
+    rescaled_frames = ffmpeg.input(
+        f'result/video/images/{timestamp}/ascii_image_%d.png', framerate=frame_rate)
+    rescaled_video = ffmpeg.output(
+        rescaled_frames, f'result/video/final/movie_{timestamp}.mp4', vcodec='libx264').run()
 
 
 if __name__ == "__main__":
-    file_name = "video/video.mov"
+    file_name = "video/IMG_3863.MOV"
 
     convert_video(file_name, "result/video/final/video")

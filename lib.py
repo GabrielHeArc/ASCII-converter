@@ -34,16 +34,16 @@ def textfile_to_image(textfile_path):
     font = None
 
     large_font = 100  # get better resolution with larger size
-    # for font_filename in COMMON_MONO_FONT_FILENAMES:
-    #     try:
-    #         font = ImageFont.truetype(font_filename, size=large_font)
-    #         print(f'Using font "{font_filename}".')
-    #         break
-    #     except IOError:
-    #         pass
-    #         # print(f'Could not load font "{font_filename}".')
-    # if font is None:
-    font = ImageFont.load_default()
+    for font_filename in COMMON_MONO_FONT_FILENAMES:
+        try:
+            font = ImageFont.truetype(font_filename, size=large_font)
+            print(f'Using font "{font_filename}".')
+            break
+        except IOError:
+            pass
+            # print(f'Could not load font "{font_filename}".')
+    if font is None:
+        font = ImageFont.load_default()
         # print('Using default font.')
 
     # make a sufficiently sized background image based on the combination of font and lines

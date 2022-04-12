@@ -1,3 +1,5 @@
+from PIL import Image
+import datetime
 import numpy as np
 from PIL import (
     Image,
@@ -9,13 +11,13 @@ from PIL import Image, ImageChops
 import PIL.Image
 import os
 import cv2
-
+from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from lib import *
 import time
 
-from PIL import Image
+
 Image.MAX_IMAGE_PIXELS = 100000000000000
 
 ASCII_CHARS = ["@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@",
@@ -32,11 +34,11 @@ ASCII_CHARS = ["@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", 
                ]
 
 
-def resize_array(image, ratio=0.5):
+def resize_array(image, ratio=0.25):
     # width, height = image.shape[:2]  # returns (width, height)
     # new_height = height * ratio
     # new_width = width * ratio
-    image = cv2.resize(image, (0,0), fx=ratio, fy=ratio)
+    image = cv2.resize(image, (0, 0), fx=ratio, fy=ratio)
     return image
 
 
@@ -57,41 +59,59 @@ def split_text(ascii_str_len, img_width, ascii_str):
     return ''.join(ascii_img)
 
 
-def process(image, multiple_frame=False, counter=0):
+def process(image, timestamp, multiple_frame=False, counter=0):
     # resize_image image
-    image = resize_array(image, 0.50) # qualité image meilleure avec resize /!\ Ne fonctionne pas si différent de 512 donc de la taille originale
+    # qualité image meilleure avec resize
+    image = resize_array(image, 1)
 
     # convert greyscale image to ascii characters
     ascii_str = pixel_to_ascii(image)
-
 
     img_width = 2*image.shape[1]  # 2 characters width = 1 pixel width
     ascii_str_len = len(ascii_str)
 
     ascii_img = split_text(ascii_str_len, img_width, ascii_str)
 
+    os.makedirs(f"temp/{timestamp}", exist_ok=True)
     # save the string to a file
-    with open("temp/ascii_image.txt", "w+") as f:
+    with open(f"temp/{timestamp}/ascii_image_{timestamp}.txt", "w+") as f:
         f.write(ascii_img)
-    img = textfile_to_image("temp/ascii_image.txt")
+    pathImg = f"temp/{timestamp}/ascii_image_{timestamp}.txt"
+    img = textfile_to_image(pathImg)
 
     img = trim(img)
     pix = np.array(img)
 
     if multiple_frame:
-        cv2.imwrite("result/video/images/ascii_image_" +
+        os.makedirs(f"result/video/images/{timestamp}", exist_ok=True)
+        cv2.imwrite(f"result/video/images/{timestamp}/ascii_image_" +
                     str(counter) + ".png", pix)
     else:
-        cv2.imwrite("result/image/image.png", pix)
+        os.makedirs(f"result/image/{timestamp}", exist_ok=True)
+        cv2.imwrite(f"result/image/{timestamp}/image.png", pix)
+
 
 def main(path, gray=False):
     if gray:
         image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     else:
         image = cv2.imread(path)
-    process(image)
+    timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
+    timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
+
+    print(timestamp)
+
+    #timestamp = datetime.now.strftime("%H:%M:%S")
+    os.makedirs(f"temp/{timestamp}", exist_ok=True)
+
+    process(image, timestamp)
 
 
 if __name__ == "__main__":
     path = "images/lena.jpg"
+
+    # créer fichier texte temporaire avec timestamp
+    # créer un dossier temporaire vide avec timestamp
+    # mettre image dedans
+    # détruire à la fin
     main(path, True)
