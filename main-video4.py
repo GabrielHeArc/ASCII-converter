@@ -10,7 +10,7 @@ import ffmpeg
 from datetime import datetime
 
 
-def convert_video(file_name, output_name):
+def convert_video(file_name):
     video_capture = cv2.VideoCapture(file_name)
 
     if not video_capture.isOpened():
@@ -57,6 +57,6 @@ def assemble_video(frame_rate, timestamp):
 
 
 if __name__ == "__main__":
-    file_name = "video/IMG_3863.MOV"
+    file_name = "video/video1.mp4"
 
-    convert_video(file_name, "result/video/final/video")
+    convert_video(file_name) 
