@@ -72,11 +72,10 @@ def process(image, timestamp, multiple_frame=False, counter=0):
 
     ascii_img = split_text(ascii_str_len, img_width, ascii_str)
 
-    os.makedirs(f"temp/{timestamp}", exist_ok=True)
     # save the string to a file
-    with open(f"temp/{timestamp}/ascii_image_{timestamp}.txt", "w+") as f:
+    with open(f"temp/ascii_image_{timestamp}.txt", "w+") as f:
         f.write(ascii_img)
-    pathImg = f"temp/{timestamp}/ascii_image_{timestamp}.txt"
+    pathImg = f"temp/ascii_image_{timestamp}.txt"
     img = textfile_to_image(pathImg)
 
     img = trim(img)
@@ -87,8 +86,7 @@ def process(image, timestamp, multiple_frame=False, counter=0):
         cv2.imwrite(f"result/video/images/{timestamp}/ascii_image_" +
                     str(counter) + ".png", pix)
     else:
-        os.makedirs(f"result/image/{timestamp}", exist_ok=True)
-        cv2.imwrite(f"result/image/{timestamp}/image.png", pix)
+        cv2.imwrite(f"result/image_{timestamp}.png", pix)
 
 
 def main(path, gray=False):
@@ -102,7 +100,6 @@ def main(path, gray=False):
     print(timestamp)
 
     #timestamp = datetime.now.strftime("%H:%M:%S")
-    os.makedirs(f"temp/{timestamp}", exist_ok=True)
 
     process(image, timestamp)
 
