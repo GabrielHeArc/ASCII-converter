@@ -5,5 +5,5 @@ ascii_image_*.png
 
 /video
 movie.mp4
-
-/image/images
+*.opus
+result/

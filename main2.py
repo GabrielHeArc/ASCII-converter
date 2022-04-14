@@ -59,10 +59,10 @@ def split_text(ascii_str_len, img_width, ascii_str):
     return ''.join(ascii_img)
 
 
-def process(image, timestamp, multiple_frame=False, counter=0):
+def process(image, timestamp, ratio, multiple_frame=False, counter=0):
     # resize_image image
     # qualité image meilleure avec resize
-    image = resize_array(image, 0.75)
+    image = resize_array(image, ratio)
 
     # convert greyscale image to ascii characters
     ascii_str = pixel_to_ascii(image)
@@ -82,33 +82,35 @@ def process(image, timestamp, multiple_frame=False, counter=0):
     pix = np.array(img)
 
     if multiple_frame:
-        os.makedirs(f"result/video/images/{timestamp}", exist_ok=True)
-        cv2.imwrite(f"result/video/images/{timestamp}/ascii_image_" +
+        os.makedirs(f"temp/{timestamp}", exist_ok=True)
+        cv2.imwrite(f"temp/{timestamp}/ascii_image_" +
                     str(counter) + ".png", pix)
     else:
-        cv2.imwrite(f"result/image_{timestamp}.png", pix)
+        cv2.imwrite(f"result/images/image_{timestamp}.png", pix)
 
 
-def main(path, gray=False):
+def main(path, ratio, gray=False):
     if gray:
         image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     else:
         image = cv2.imread(path)
-    timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
-    timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
+
 
     print(timestamp)
 
     #timestamp = datetime.now.strftime("%H:%M:%S")
 
-    process(image, timestamp)
+    process(image, timestamp, ratio)
 
 
 if __name__ == "__main__":
     path = "images/lena.jpg"
-
+    ratio = 1
+    timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
+    timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
     # créer fichier texte temporaire avec timestamp
     # créer un dossier temporaire vide avec timestamp
     # mettre image dedans
     # détruire à la fin
-    main(path, True)
+    main(path, ratio, True)
+    os.remove(f"temp/ascii_image_{timestamp}.txt")
