@@ -57,6 +57,6 @@ def assemble_video(frame_rate, timestamp):
 
 
 if __name__ == "__main__":
-    file_name = "video/video1.mp4"
+    file_name = "video/Je possède des tunes (ouais) . je suis à l'aise financièrement(1).mp4"
 
-    convert_video(file_name) 
+    convert_video(file_name)

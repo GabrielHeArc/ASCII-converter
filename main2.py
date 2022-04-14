@@ -62,7 +62,7 @@ def split_text(ascii_str_len, img_width, ascii_str):
 def process(image, timestamp, multiple_frame=False, counter=0):
     # resize_image image
     # qualité image meilleure avec resize
-    image = resize_array(image, 1)
+    image = resize_array(image, 0.75)
 
     # convert greyscale image to ascii characters
     ascii_str = pixel_to_ascii(image)
