@@ -2,6 +2,7 @@ import os
 import datetime
 from lib2to3.pytree import convert
 from math import ceil
+import shutil
 import time
 import cv2
 from cv2 import IMREAD_GRAYSCALE
@@ -59,11 +60,11 @@ def assemble_video(frame_rate, timestamp):
 
 
 if __name__ == "__main__":
-    file_name = "video/video2.mp4"
-    ratio = 0.001
+    file_name = "video/video1.mp4"
+    ratio = 1
     timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
     timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
 
     convert_video(file_name, ratio)
+    shutil.rmtree(f"temp/{timestamp}", ignore_errors=False, onerror=None)
     os.remove(f"temp/ascii_image_{timestamp}.txt")
-    os.remove(f"temp/{timestamp}")

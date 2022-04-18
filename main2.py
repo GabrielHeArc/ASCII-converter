@@ -1,22 +1,11 @@
 from PIL import Image
 import datetime
 import numpy as np
-from PIL import (
-    Image,
-    ImageFont,
-    ImageDraw,
-)
 from math import ceil
-from PIL import Image, ImageChops
-import PIL.Image
 import os
 import cv2
 from datetime import datetime
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 from lib import *
-import time
-
 
 Image.MAX_IMAGE_PIXELS = 100000000000000
 
@@ -35,33 +24,25 @@ ASCII_CHARS = ["@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", 
 
 
 def resize_array(image, ratio=0.25):
-    # width, height = image.shape[:2]  # returns (width, height)
-    # new_height = height * ratio
-    # new_width = width * ratio
     image = cv2.resize(image, (0, 0), fx=ratio, fy=ratio)
     return image
 
 
 def pixel_to_ascii(image):
-    # pixels = image.getdata()  # Array of pixels
     ascii_chars = []
     [[ascii_chars.append(ASCII_CHARS[pixel]*2)
-      for pixel in pixels] for pixels in image]
+        for pixel in pixels] for pixels in image]
     return ''.join(ascii_chars)
 
 
 def split_text(ascii_str_len, img_width, ascii_str):
     ascii_img = []
     [ascii_img.append(ascii_str[i:i+img_width] + "\n")
-     for i in range(0, ascii_str_len, img_width)]
-    # for i in range(0, ascii_str_len, img_width):
-    #    ascii_img += ascii_str[i:i+img_width] + "\n"
+        for i in range(0, ascii_str_len, img_width)]
     return ''.join(ascii_img)
 
 
 def process(image, timestamp, ratio, multiple_frame=False, counter=0):
-    # resize_image image
-    # qualité image meilleure avec resize
     image = resize_array(image, ratio)
 
     # convert greyscale image to ascii characters
@@ -80,7 +61,6 @@ def process(image, timestamp, ratio, multiple_frame=False, counter=0):
 
     img = trim(img)
     pix = np.array(img)
-
     if multiple_frame:
         os.makedirs(f"temp/{timestamp}", exist_ok=True)
         cv2.imwrite(f"temp/{timestamp}/ascii_image_" +
@@ -94,11 +74,6 @@ def main(path, ratio, gray=False):
         image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     else:
         image = cv2.imread(path)
-
-
-    print(timestamp)
-
-    #timestamp = datetime.now.strftime("%H:%M:%S")
 
     process(image, timestamp, ratio)
 
