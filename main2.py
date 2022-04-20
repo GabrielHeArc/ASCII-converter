@@ -42,8 +42,11 @@ def split_text(ascii_str_len, img_width, ascii_str):
     return ''.join(ascii_img)
 
 
-def process(image, timestamp, ratio, multiple_frame=False, counter=0):
+def process(image, timestamp, ratio=0.25, multiple_frame=False, counter=0):
     image = resize_array(image, ratio)
+
+    print("XXXX")
+    print(type(image))
 
     # convert greyscale image to ascii characters
     ascii_str = pixel_to_ascii(image)
@@ -67,9 +70,9 @@ def process(image, timestamp, ratio, multiple_frame=False, counter=0):
                     str(counter) + ".png", pix)
     else:
         cv2.imwrite(f"result/images/image_{timestamp}.png", pix)
+    print("Image enregistrée")
 
-
-def main(path, ratio, gray=False):
+def main(path, timestamp, ratio, gray=False):
     if gray:
         image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     else:
@@ -87,5 +90,5 @@ if __name__ == "__main__":
     # créer un dossier temporaire vide avec timestamp
     # mettre image dedans
     # détruire à la fin
-    main(path, ratio, True)
+    main(path, timestamp, ratio, True)
     os.remove(f"temp/ascii_image_{timestamp}.txt")
