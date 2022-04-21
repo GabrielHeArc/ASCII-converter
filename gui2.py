@@ -1,69 +1,92 @@
 # importing the tkinter module and PIL that
 # is pillow module
+from datetime import datetime
 from tkinter import *
+from tkinter import filedialog
 from turtle import back, forward
 from PIL import ImageTk, Image
-from main2 import process
+import cv2
+from numpy import can_cast
+from main2 import process, main
 
 
-def convert_image():
-    pass
+def convert_image(path, ratio, gray):
+    timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
+    timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
+    print(ratio)
+    main(path, timestamp, ratio, True)
+
+    canvas= Canvas(root, width= 600, height= 400)
+
+    load = Image.open("result/images/image_" + timestamp + ".png")
+    image_resize = load.resize((300, 300), Image.ANTIALIAS)
+    new_image = ImageTk.PhotoImage(image_resize)
+    canvas.create_image(0, 0, image=new_image, anchor='nw')
+    canvas.grid(row=6, column=0, columnspan=10, rowspan=10)
+    # render = ImageTk.PhotoImage(load)
+    # img = Label(root, image=render)
+    # img.place(x=100, y=100)
+    # List of the images so that we traverse the list
+    # label = Label(image=ima)
+
+    # We have to show the box so this below line is needed
+    # img.grid(row=5, column=0, columnspan=10, rowspan=10)
+    # img.image = render
 
 
 def convert_video():
     pass
 
 
+def open_file():
+    root.filename = filedialog.askopenfilename(
+        initialdir="/", title="Select file", filetypes=(("png files", "*.png"), ("all files", "*.*")))
+    print(root.filename)
+    # image_no_1 = ImageTk.PhotoImage(Image.open(root.filename))
+    load = Image.open(root.filename)
+    render = ImageTk.PhotoImage(load)
+    img = Label(root, image=render)
+    img.place(x=100, y=100)
+    # List of the images so that we traverse the list
+    # label = Label(image=ima)
+
+    # We have to show the box so this below line is needed
+    img.grid(row=2, column=0, columnspan=10, rowspan=10)
+    img.image = render
+
+
 # Calling the Tk (The initial constructor of tkinter)
 root = Tk()
+slider = Scale(root, from_=0.1, to=1, resolution=0.1, orient=HORIZONTAL)
 
 # We will make the title of our app as Image Viewer
-root.title("Image Viewer")
+root.title("ASCII Converter")
 
 # The geometry of the box which will be displayed
 # on the screen
 root.geometry("700x700")
 
+
 # Adding the images using the pillow module which
 # has a class ImageTk We can directly add the
 # photos in the tkinter folder or we have to
 # give a proper path for the images
-image = "images/lena.png"
-image_no_1 = ImageTk.PhotoImage(Image.open(image))
-image_no_2 = ImageTk.PhotoImage(Image.open(image))
-image_no_3 = ImageTk.PhotoImage(Image.open(image))
-image_no_4 = ImageTk.PhotoImage(Image.open(image))
 
-# List of the images so that we traverse the list
-List_images = [image_no_1, image_no_2, image_no_3, image_no_4]
-
-label = Label(image=image_no_1)
-
-# We have to show the the box so this below line is needed
-label.grid(row=1, column=0, columnspan=3)
-
-# We will have three button back ,forward and exit
-button_back = Button(root, text="Back", command=back,
-                     state=DISABLED)
 
 # root.quit for closing the app
 button_exit = Button(root, text="Exit",
                      command=root.quit)
-
-button_forward = Button(root, text="Forward",
-                        command=lambda: forward(1))
-
 button_convert_image = Button(
-    root, text="Convert Image", command=convert_image)
-button_convert_video = Button(
-    root, text="Convert Video", command=convert_video)
+    root, text="Convert Image", command=lambda: convert_image(root.filename, slider.get(), False))
+button_open_file = Button(
+    root, text="Open file", command=open_file)
 
 # grid function is for placing the buttons in the frame
-button_back.grid(row=5, column=0)
-button_exit.grid(row=5, column=1)
-button_forward.grid(row=5, column=2)
-button_convert_image.grid(row=6, column=0)
-button_convert_video.grid(row=6, column=1)
+
+button_exit.grid(row=0, column=0)
+button_open_file.grid(row=0, column=1)
+slider.grid(row=0, column=2)
+button_convert_image.grid(row=0, column=3)
 
 
 root.mainloop()

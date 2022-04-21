@@ -79,6 +79,7 @@ def main(path, timestamp, ratio, gray=False):
         image = cv2.imread(path)
 
     process(image, timestamp, ratio)
+    os.remove(f"temp/ascii_image_{timestamp}.txt")
 
 
 if __name__ == "__main__":
@@ -91,4 +92,3 @@ if __name__ == "__main__":
     # mettre image dedans
     # détruire à la fin
     main(path, timestamp, ratio, True)
-    os.remove(f"temp/ascii_image_{timestamp}.txt")
