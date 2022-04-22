@@ -24,7 +24,13 @@ ASCII_CHARS = ["@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", 
 
 
 def resize_array(image, ratio=0.25):
-    image = cv2.resize(image, (0, 0), fx=ratio, fy=ratio)
+    target_width = 100
+    target_height = 100
+    x = target_width / image.shape[0]
+    y = target_height / image.shape[1]
+    print(x)
+    print(y)
+    image = cv2.resize(image, (0, 0), fx=x, fy=y)
     return image
 
 
@@ -72,7 +78,11 @@ def process(image, timestamp, ratio=0.25, multiple_frame=False, counter=0):
         cv2.imwrite(f"result/images/image_{timestamp}.png", pix)
     print("Image enregistrée")
 
-def main(path, timestamp, ratio, gray=False):
+
+def main(path, ratio, gray=False):
+
+    timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
+    timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
     if gray:
         image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     else:
@@ -84,11 +94,5 @@ def main(path, timestamp, ratio, gray=False):
 
 if __name__ == "__main__":
     path = "images/lena.jpg"
-    ratio = 1
-    timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
-    timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
-    # créer fichier texte temporaire avec timestamp
-    # créer un dossier temporaire vide avec timestamp
-    # mettre image dedans
-    # détruire à la fin
-    main(path, timestamp, ratio, True)
+    ratio = 0.1
+    main(path, ratio, True)

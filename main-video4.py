@@ -48,6 +48,9 @@ def convert_video(file_name, ratio):
                 break
 
         assemble_video(frame_rate, timestamp)
+        os.remove(f"temp/ascii_image_{timestamp}.txt")
+
+
 
 
 def assemble_video(frame_rate, timestamp):
