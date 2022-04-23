@@ -1,7 +1,6 @@
 .venv
 __pycache__/
-ascii_image_*.jpg
-ascii_image_*.png
+ascii_image_*.*
 
 /video
 movie.mp4
