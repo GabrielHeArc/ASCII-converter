@@ -115,7 +115,7 @@ def main_video(file_name, image_definition):
         timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
 
         convert_video(video_capture, image_definition, timestamp, frame_count)
-        assemble_video(frame_rate, timestamp)
+        assemble_video(frame_rate, timestamp, image_definition)
 
         os.remove(f"temp/ascii_image_{timestamp}.txt")
         shutil.rmtree(f"temp/{timestamp}", ignore_errors=False, onerror=None)
@@ -140,8 +140,8 @@ def convert_video(video_capture, image_definition, timestamp, frame_count):
             break  # work around because of unresolved error
 
 
-def assemble_video(frame_rate, timestamp):
+def assemble_video(frame_rate, timestamp, image_definition):
     rescaled_frames = ffmpeg.input(
         f'temp/{timestamp}/ascii_image_%d.png', framerate=frame_rate)
     ffmpeg.output(
-        rescaled_frames, f'result/video/movie_{timestamp}.mp4', vcodec='libx264').run()
+        rescaled_frames, f'result/video/movie_{image_definition.name}_{timestamp}.mp4', vcodec='libx264').run()

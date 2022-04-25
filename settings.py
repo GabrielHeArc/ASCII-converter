@@ -2,13 +2,11 @@ import enum
 
 
 class DefinitionImage(enum.Enum):
-    D1 = [100, 100]  # Temporary
-    D2 = [200, 200]  # Temporary
-    D3 = [300, 300]  # Temporary
+    D1 = [100, 100]
+    D2 = [200, 200]
+    D3 = [300, 300]
     SD = [400, 400]
     HD = [500, 500]
-    FHD = [600, 600]
-    UHD = [700, 700]
 
 
 class DefinitionVideo(enum.Enum):

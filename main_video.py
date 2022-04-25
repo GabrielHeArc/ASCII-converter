@@ -3,4 +3,4 @@ from settings import DefinitionVideo
 
 if __name__ == "__main__":
     path = "video/video1.mp4"
-    main_video(path, DefinitionVideo.FHD)
+    main_video(path, DefinitionVideo.D1)
