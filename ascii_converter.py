@@ -49,15 +49,18 @@ def main_image(path, image_definition, gray=False):
 
 def resize_array(image, image_definition):
     image_definition_x = image_definition.value[0]
-    image_definition_y = image_definition.value[1]
+    # image_definition_y = image_definition.value[1]
+
+    ratio = image.shape[0] / image.shape[1]
 
     x = image_definition_x / image.shape[0]
-    y = image_definition_y / image.shape[1]
+    y = ratio * x
+    print(y)
+    # y = image_definition_y / image.shape[1]
     x = x if x <= 1 else 1
     y = y if y <= 1 else 1
 
-    image = cv2.resize(image, None, fx=x, fy=y,
-                       interpolation=cv2.INTER_AREA)
+    image = cv2.resize(image, None, fx=x, fy=y)
     return image
 
 

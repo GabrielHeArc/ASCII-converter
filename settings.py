@@ -2,11 +2,11 @@ import enum
 
 
 class DefinitionImage(enum.Enum):
-    D1 = [100, 100]
-    D2 = [200, 200]
-    D3 = [300, 300]
-    SD = [400, 400]
-    HD = [500, 500]
+    D1 = [100, 0]
+    D2 = [200, 0]
+    D3 = [300, 0]
+    SD = [400, 0]
+    HD = [500, 0]
 
 
 class DefinitionVideo(enum.Enum):
