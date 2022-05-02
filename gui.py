@@ -30,23 +30,27 @@ def convert_image(path, gray):
         tabImage, text=f"Image saved at result/images/image_{timestamp}.png")
     info.place(x=50, y=80)
 
+
 def convert_video(path):
     timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
     timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
     name_enum = combo_video.get()
-    print
-    print(root.filename)
-    label = Label(tabVideo, text=f"Video saved at result/videos/video_{timestamp}.mp4")
+
+    label = Label(tabVideo, text=f"Process running, please wait...")
     label.place(x=100, y=100)
-    progress = Progressbar(tabVideo, orient=HORIZONTAL, length=100, mode='determinate')
+    tabVideo.update()
     timestamp = main_video(path, DefinitionVideo[name_enum])
-    progress.place(x=100, y=100)
+    label.destroy()
+    label = Label(
+        tabVideo, text=f"Video saved at result/videos/video_{timestamp}.mp4")
+    label.place(x=100, y=100)
+
 
 def open_file_image():
+    img = Label(tabImage)
     root.filename = filedialog.askopenfilename(
         initialdir="/", title="Select file", filetypes=(("png files", "*.png"), ("all files", "*.*")))
     load = Image.open(root.filename)
-    print(load.size)
     render = ImageTk.PhotoImage(load, width=700, height=700)
     img = Label(tabImage, image=render)
     img.place(x=100, y=100)

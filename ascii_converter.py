@@ -34,7 +34,6 @@ ASCII_CHARS = ["@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", "@", 
 
 
 def main_image(path, image_definition, gray=False):
-
     timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
     timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
     if gray:
@@ -55,8 +54,6 @@ def resize_array(image, image_definition):
 
     x = image_definition_x / image.shape[0]
     y = ratio * x
-    print(y)
-    # y = image_definition_y / image.shape[1]
     x = x if x <= 1 else 1
     y = y if y <= 1 else 1
 
