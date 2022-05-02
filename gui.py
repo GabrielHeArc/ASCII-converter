@@ -23,9 +23,9 @@ def convert_image(path, gray):
 
     resized_image = load.resize((x, y))
     render = ImageTk.PhotoImage(resized_image, width=x, height=y)
-    img = Label(tabImage, image=render)
-    img.place(x=100, y=100)
+    img.configure(image=render)
     img.image = render
+    img.place(x=100, y=100)
     info = Label(
         tabImage, text=f"Image saved at result/images/image_{timestamp}.png")
     info.place(x=50, y=80)
@@ -47,14 +47,15 @@ def convert_video(path):
 
 
 def open_file_image():
-    img = Label(tabImage)
     root.filename = filedialog.askopenfilename(
         initialdir="/", title="Select file", filetypes=(("png files", "*.png"), ("all files", "*.*")))
     load = Image.open(root.filename)
     render = ImageTk.PhotoImage(load, width=700, height=700)
-    img = Label(tabImage, image=render)
+    img.configure(image=render)
+    img.image = render
     img.place(x=100, y=100)
     img.image = render
+    
 
 
 def open_file_video():
@@ -79,6 +80,9 @@ tabControl = ttk.Notebook(root)
 tabImage = ttk.Frame(tabControl)
 tabControl.add(tabImage, text="Convert image")
 tabControl.pack(expand=1, fill="both")
+
+# Init img label
+img = Label(tabImage)
 
 ttk.Button(tabImage, text="Exit", command=root.quit).grid(
     row=0, column=0, padx=10, pady=10)
