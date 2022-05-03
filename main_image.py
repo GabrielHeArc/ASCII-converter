@@ -1,7 +1,3 @@
-from PIL import Image
-import datetime
-import numpy as np
-from math import ceil
 from ascii_converter import main_image
 from settings import DefinitionImage
 
