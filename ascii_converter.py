@@ -203,4 +203,4 @@ def assemble_video(frame_rate, timestamp, image_definition):
     rescaled_frames = ffmpeg.input(
         f'temp/{timestamp}/ascii_image_%d.png', framerate=frame_rate)
     ffmpeg.output(
-        rescaled_frames, f'result/video/movie_{image_definition.name}_{timestamp}.mp4', vcodec='libx264').run()
+        rescaled_frames, f'result/videos/movie_{image_definition.name}_{timestamp}.mp4', vcodec='libx264').run()
