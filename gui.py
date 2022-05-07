@@ -11,7 +11,13 @@ from tkinter import ttk
 from tkinter.ttk import *
 
 
-def convert_image(path, gray):
+def convert_image(path, gray=True):
+    """Launch the conversion of an image to ascii art in GUI
+
+    Args:
+        path (string): path of the image to convert
+        gray (bool): True if the image is in gray scale, False otherwise
+    """
     timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
     timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
     name_enum = combo_image.get()
@@ -32,6 +38,11 @@ def convert_image(path, gray):
 
 
 def convert_video(path):
+    """Launch the conversion of a video to ascii art in GUI
+
+    Args:
+        path (string): path of the video to convert
+    """
     timestamp = datetime.now()  # fromisoformat('yyyy-MM-dd-hh:mm:ss')
     timestamp = timestamp.strftime("%m-%d-%Y-%H-%M-%S")
     name_enum = combo_video.get()
@@ -47,6 +58,8 @@ def convert_video(path):
 
 
 def open_file_image():
+    """Open a file dialog to select an image to convert to ascii art
+    """
     root.filename = filedialog.askopenfilename(
         initialdir="/", title="Select file", filetypes=(("png files", "*.png"), ("all files", "*.*")))
     load = Image.open(root.filename)
@@ -55,14 +68,13 @@ def open_file_image():
     img.image = render
     img.place(x=100, y=100)
     img.image = render
-    
 
 
 def open_file_video():
+    """Open a file dialog to select a video to convert to ascii art
+    """
     root.filename = filedialog.askopenfilename(
         initialdir="/", title="Select file", filetypes=(("mp4 files", "*.mp4"), ("all files", "*.*")))
-    return root.filename
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 
