@@ -9,6 +9,7 @@ Il est également nécessaire d'ajouter le chemin de la bibliothèque `ffmpeg` �
 
 ## Usage
 
+Le lancement des programmes nécessite d'avoir activé l'environnement virtuel.
 ### GUI
 
 Le programme avec interface graphique peut être lancé en ligne de commande. Le script se nomme `gui.py` et est accessible via le chemin `./gui.py`.
