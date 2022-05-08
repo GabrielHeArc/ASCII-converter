@@ -5,7 +5,7 @@
 
 Pour créer l'environnement virtuel et pour installer les dépendances, lancer le script `init.sh` du projet. En cas de problème les commandes suivantes peuvent être effectuées manuellement :
 `python3 -m venv .venv` puis pour activer l'environnement virtuel : `source .venv/bin/activate`. Finalement pour installer les dépendances lancer `pip install -r requirements.txt`.
-Il est également nécessaire d'ajouter le chemin de la bibliothèque `ffmpeg` à la variable d'environnement `PATH`. La bibliothèque est disponible dans le projet en fichier compressé `ffmpeg.7z`
+Il est également nécessaire d'ajouter le chemin de la bibliothèque `ffmpeg` à la variable d'environnement `PATH`. La bibliothèque est disponible dans le projet en fichier compressé `ffmpeg.7z`. Un redémarrage peut être nécessaire pour mettre à jour la variable d'environnement `PATH`.
 
 ## Usage
 
